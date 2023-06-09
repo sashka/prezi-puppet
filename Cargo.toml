@@ -1,10 +1,18 @@
 [package]
 name = "prezi-puppet"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 anyhow = "1.0"
-headless_chrome = {version = "1.0", features = ["fetch"]}
+clap = { version = "4", features = ["derive"] }
+log = "0.4"
+printpdf = { version = "0.5", features = ["embedded_images"] }
+# simplelog = "0.12"
+tempfile = "3"
+
+# TODO: replace with standard invocation as soon as version older than 1.0.5 gets to crates.io
+# headless_chrome = "1.0"
+headless_chrome = { git = "https://github.com/rust-headless-chrome/rust-headless-chrome.git", rev = "38858c9"}
