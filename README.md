@@ -1,5 +1,5 @@
 # prezi-puppet
-Convert "Prezi to PDF" with Headless Chrome.
+Prezi to PDF by Headless Chrome.
 
 ## Usage
 1. [Download Chromium for Apple Silicon (Mac ARM)](https://download-chromium.appspot.com/?platform=Mac_Arm&type=snapshots)
