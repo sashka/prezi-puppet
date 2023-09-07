@@ -19,6 +19,9 @@ struct Args {
     #[arg(short = 'O', value_name = "PDF")]
     target: String,
 
+    #[arg(short = 'D')]
+    debug: bool,
+
     /// Prezi url
     url: String,
 }
@@ -28,9 +31,12 @@ const BROWSER_BORDER: (u32, u32) = (0, 130);
 const CHROMIUM_PATH: &str = "/Applications/Chromium.app/Contents/MacOS/Chromium";
 
 fn main() {
-    // let _ = simplelog::SimpleLogger::init(simplelog::LevelFilter::Debug, simplelog::Config::default());
     let args = Args::parse();
     println!("{:?}", args);
+
+    if args.debug {
+        let _ = simplelog::SimpleLogger::init(simplelog::LevelFilter::Debug, simplelog::Config::default());
+    }
 
     let result = browse_prezi(&args.url, &args.target);
     exit_with_code(&result);
@@ -93,6 +99,7 @@ fn browse_prezi(url: &str, target_pdf: &str) -> anyhow::Result<()> {
     debug!("Rendering PDF: `{}`", &target_pdf);
     combine_pdf(target_pdf, &title, &pages)?;
     debug!("Done");
+
     Ok(())
 }
 
@@ -127,6 +134,10 @@ where
     }
 
     pdf.save(&mut BufWriter::new(fs::File::create(target_name).unwrap())).unwrap();
+    println!(
+        "To optimize size use:\n> magick -density 300 -quality 90 -compress JPEG {:?} compressed.pdf",
+        target_name
+    );
     Ok(())
 }
 
