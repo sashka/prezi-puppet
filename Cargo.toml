@@ -10,7 +10,7 @@ anyhow = "1.0"
 clap = { version = "4", features = ["derive"] }
 log = "0.4"
 printpdf = { version = "0.5", features = ["embedded_images"] }
-# simplelog = "0.12"
+simplelog = "0.12"
 tempfile = "3"
 
 # TODO: replace with standard invocation as soon as version older than 1.0.5 gets to crates.io
