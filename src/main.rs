@@ -32,7 +32,7 @@ const CHROMIUM_PATH: &str = "/Applications/Chromium.app/Contents/MacOS/Chromium"
 
 fn main() {
     let args = Args::parse();
-    println!("{:?}", args);
+    println!("{args:?}");
 
     if args.debug {
         let _ = simplelog::SimpleLogger::init(simplelog::LevelFilter::Debug, simplelog::Config::default());
@@ -43,7 +43,7 @@ fn main() {
 }
 
 fn browse_prezi(url: &str, target_pdf: &str) -> anyhow::Result<()> {
-    debug!("Processing `{}`", url);
+    debug!("Processing `{url}`");
 
     let tmp_dir = tempfile::tempdir()?;
 
@@ -78,10 +78,10 @@ fn browse_prezi(url: &str, target_pdf: &str) -> anyhow::Result<()> {
     loop {
         let n = pages.len();
 
-        debug!("Taking screenshot {}", n);
+        debug!("Taking screenshot {n}");
         let screenshot = tab.capture_screenshot(CaptureScreenshotFormatOption::Png, Some(90), None, false)?;
 
-        let file_path = tmp_dir.path().join(format!("{}.png", n));
+        let file_path = tmp_dir.path().join(format!("{n}.png"));
         debug!("Saving screenshot {} -> {:?}", n, file_path.as_path());
         fs::write(&file_path, screenshot)?;
 
@@ -135,8 +135,7 @@ where
 
     pdf.save(&mut BufWriter::new(fs::File::create(target_name).unwrap())).unwrap();
     println!(
-        "To optimize size use:\n> magick -density 300 -quality 90 -compress JPEG {:?} compressed.pdf",
-        target_name
+        "To optimize size use:\n> magick -density 300 -quality 90 -compress JPEG {target_name:?} compressed.pdf"
     );
     Ok(())
 }
@@ -165,7 +164,7 @@ fn exit_with_code(result: &anyhow::Result<()>) {
             std::process::exit(0);
         }
         Err(err) => {
-            eprintln!("Error: {:?}", err);
+            eprintln!("Error: {err:?}");
             std::process::exit(255);
         }
     }
